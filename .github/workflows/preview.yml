@@ -25,7 +25,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'frontend/node_modules'
 
       - name: Install dependencies
         working-directory: ./frontend
@@ -36,8 +35,6 @@ jobs:
         run: npm run build
         env:
           VITE_API_URL: /api
-          # Deploy to subfolder based on PR number
-          BASE_URL: /pokerfx-web/pr-${{ github.event.pull_request.number }}/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
