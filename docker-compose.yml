@@ -1,0 +1,39 @@
+# Local development: API + DynamoDB Local
+# Usage: docker compose up
+#
+# For actual AWS deployment, use:
+#   - ECR for container image
+#   - ECS Fargate for API (or keep on Railway/Render)
+#   - AWS Batch with the worker/Dockerfile
+#   - DynamoDB (cloud)
+#   - S3
+
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: ../Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-test}
+      - S3_BUCKET=${S3_BUCKET:-pokerfx-uploads}
+      - DYNAMODB_TABLE=${DYNAMODB_TABLE:-pokerfx}
+      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
+      - BATCH_JOB_QUEUE=${BATCH_JOB_QUEUE:-pokerfx-queue}
+      - BATCH_JOB_DEFINITION=${BATCH_JOB_DEFINITION:-pokerfx-card-detect:1}
+    volumes:
+      - ./backend:/app/backend
+    depends_on:
+      - dynamodb-local
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    ports:
+      - "8001:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
