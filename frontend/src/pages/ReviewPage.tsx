@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import HandGrid from '../components/HandGrid';
+import VideoPlayer from '../components/VideoPlayer';
+import ErrorState from '../components/ErrorState';
 import { getVideo, exportVideo, type Video } from '../api/client';
 
 export default function ReviewPage() {
@@ -9,20 +11,24 @@ export default function ReviewPage() {
   const [verified, setVerified] = useState({ accepted: 0, rejected: 0, pending: 0 });
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_pollInterval, setPollInterval] = useState<number | null>(null);
 
   useEffect(() => {
     if (!videoId) return;
+    setLoading(true);
+    setError(null);
     getVideo(videoId)
       .then(setVideo)
-      .catch(() => setVideo(null))
+      .catch(() => setError('Failed to load video. Please go back and try again.'))
       .finally(() => setLoading(false));
   }, [videoId]);
 
   // Poll while processing
   useEffect(() => {
-    if (!videoId || !video || video.status === 'processing') {
+    if (!videoId || video?.status === 'processing') {
       const interval = window.setInterval(async () => {
         try {
           const updated = await getVideo(videoId!);
@@ -62,17 +68,24 @@ export default function ReviewPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-        <p className="text-gray-400">Loading...</p>
+      <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-gray-400">Loading video…</p>
+        </div>
       </div>
     );
   }
 
-  if (!video) {
+  if (error || !video) {
     return (
-      <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center gap-4">
-        <p className="text-red-400">Video not found.</p>
-        <Link to="/" className="text-purple-400 hover:underline">← Back to upload</Link>
+      <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center gap-4 px-6">
+        <ErrorState
+          title="Video not found"
+          message={error ?? 'This video could not be loaded.'}
+          onRetry={() => window.history.back()}
+        />
+        <Link to="/" className="text-purple-400 hover:underline text-sm">← Back to upload</Link>
       </div>
     );
   }
@@ -82,14 +95,25 @@ export default function ReviewPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
+      {/* Lightbox */}
+      <VideoPlayer
+        src={videoSrc}
+        title={video.filename}
+        onClose={() => setVideoSrc(null)}
+      />
+
       {/* Header */}
-      <header className="border-b border-gray-800 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div>
-            <Link to="/" className="text-purple-400 hover:underline text-sm mb-1 block">← Upload another</Link>
-            <h1 className="text-xl font-bold">{video.filename}</h1>
-            <p className="text-sm text-gray-500">
-              {video.status === 'processing' && '⏳ Processing...'}
+      <header className="border-b border-gray-800 px-4 sm:px-6 py-4">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="min-w-0">
+            <Link to="/videos" className="text-purple-400 hover:underline text-sm mb-1 block">
+              ← All videos
+            </Link>
+            <h1 className="text-base sm:text-xl font-bold truncate max-w-xs sm:max-w-none">
+              {video.filename}
+            </h1>
+            <p className="text-sm text-gray-500 mt-0.5">
+              {video.status === 'processing' && '⏳ Processing…'}
               {video.status === 'done' && `🎯 ${video.detectedCount} hand${video.detectedCount !== 1 ? 's' : ''} detected`}
               {video.status === 'error' && '❌ Processing failed'}
               {video.status === 'pending' && '⏳ Queued'}
@@ -97,7 +121,7 @@ export default function ReviewPage() {
           </div>
 
           {video.status === 'done' && (
-            <div className="flex items-center gap-6">
+            <div className="flex flex-wrap items-center gap-4">
               {/* Stats */}
               <div className="flex gap-4 text-sm">
                 <span className="text-green-400">✓ {verified.accepted}</span>
@@ -117,7 +141,7 @@ export default function ReviewPage() {
                     : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                 }`}
               >
-                {exporting ? 'Exporting...' : 'Export Verified'}
+                {exporting ? 'Exporting…' : 'Export Verified'}
               </button>
             </div>
           )}
@@ -132,14 +156,14 @@ export default function ReviewPage() {
       )}
 
       {/* Hand grid */}
-      <main className="max-w-6xl mx-auto px-6 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {video.status === 'done' ? (
           <HandGrid videoId={videoId!} onVerifiedChange={handleVerifiedChange} />
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-gray-500">
             <div className="text-5xl mb-4">⏳</div>
-            <p>Card detection is running...</p>
-            <p className="text-sm mt-1">This usually takes 30–60 seconds.</p>
+            <p>Card detection is running…</p>
+            <p className="text-sm mt-1 text-gray-600">This usually takes 30–60 seconds.</p>
           </div>
         )}
       </main>

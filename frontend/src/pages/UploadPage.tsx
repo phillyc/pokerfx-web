@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { uploadVideo, processVideo } from '../api/client';
 
 export default function UploadPage() {
@@ -40,7 +40,15 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center p-8">
+    <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center p-6">
+      {/* Videos link */}
+      <Link
+        to="/videos"
+        className="absolute top-4 right-4 text-sm text-gray-500 hover:text-purple-400 transition-colors"
+      >
+        My Videos
+      </Link>
+
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2">PokerFX</h1>
@@ -53,7 +61,7 @@ export default function UploadPage() {
           onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
           onDragLeave={() => setDragOver(false)}
           onClick={() => !uploading && inputRef.current?.click()}
-          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-colors ${
+          className={`border-2 border-dashed rounded-2xl p-10 sm:p-12 text-center cursor-pointer transition-colors ${
             dragOver
               ? 'border-purple-500 bg-purple-500/10'
               : 'border-gray-700 hover:border-gray-500 bg-gray-900'
@@ -72,8 +80,10 @@ export default function UploadPage() {
 
           {uploading ? (
             <>
-              <div className="text-4xl mb-4 animate-pulse">📤</div>
-              <p className="text-gray-300">Uploading...</p>
+              <div className="flex justify-center mb-4">
+                <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
+              </div>
+              <p className="text-gray-300">Uploading…</p>
             </>
           ) : (
             <>

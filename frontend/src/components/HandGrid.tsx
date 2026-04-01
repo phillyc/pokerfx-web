@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import HandCard from './HandCard';
+import ErrorState from './ErrorState';
+import { SkeletonHandGrid } from './Skeleton';
 import { getHands, updateHandStatus, type DetectedHand } from '../api/client';
 
 interface Props {
@@ -13,10 +15,22 @@ export default function HandGrid({ videoId, onVerifiedChange }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getHands(videoId)
-      .then(setHands)
-      .catch(() => setError('Failed to load detected hands'))
-      .finally(() => setLoading(false));
+    let cancelled = false;
+    async function load() {
+      try {
+        const data = await getHands(videoId);
+        if (!cancelled) {
+          setHands(data);
+          setError(null);
+        }
+      } catch {
+        if (!cancelled) setError('Failed to load detected hands. Please refresh.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    load();
+    return () => { cancelled = true; };
   }, [videoId]);
 
   useEffect(() => {
@@ -31,31 +45,26 @@ export default function HandGrid({ videoId, onVerifiedChange }: Props) {
     setHands((prev) =>
       prev.map((h) => (h.id === id ? { ...h, status } : h))
     );
-    await updateHandStatus(id, status);
+    try {
+      await updateHandStatus(id, status);
+    } catch {
+      // Revert on failure
+      setHands((prev) =>
+        prev.map((h) => (h.id === id ? { ...h, status: 'pending' } : h))
+      );
+    }
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-16 text-gray-500">
-        Loading detected hands...
-      </div>
-    );
-  }
+  if (loading) return <SkeletonHandGrid count={hands.length || 8} />;
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center py-16 text-red-500">
-        {error}
-      </div>
-    );
-  }
+  if (error) return <ErrorState message={error} onRetry={() => window.location.reload()} />;
 
   if (hands.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-        <span className="text-4xl mb-2">🃏</span>
+      <div className="flex flex-col items-center justify-center py-24 text-gray-400">
+        <span className="text-4xl mb-2" aria-hidden="true">🃏</span>
         <p>No hands detected in this video yet.</p>
-        <p className="text-sm mt-1">Check back after processing completes.</p>
+        <p className="text-sm mt-1 text-gray-600">Check back after processing completes.</p>
       </div>
     );
   }
