@@ -24,7 +24,9 @@ Export verified hand history (CSV/JSON)
 ### Phase 0 — Repo Foundation
 *Setup the project for tracked, collaborative development.*
 
-- [ ] **[#1](https://github.com/phillyc/pokerfx-web/issues/1)** — Set up GitHub Project board + milestone structure + repo description
+- [x] **[#1](https://github.com/phillyc/pokerfx-web/issues/1)** — Set up GitHub Project board + milestone structure + repo description
+
+> **GitHub Project Board:** https://github.com/orgs/phillyc/projects/pokerfx-web/ (columns: Backlog → In Progress → Done)
 
 ---
 
