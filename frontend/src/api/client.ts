@@ -9,7 +9,10 @@ import {
 } from './mock';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api';
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
+// Use mock when no real backend is configured (i.e., API_BASE is the default '/api')
+// Set VITE_USE_MOCK=false only when you have a real backend deployed
+const USE_MOCK =
+  import.meta.env.VITE_USE_MOCK === 'true' || !import.meta.env.VITE_API_URL;
 
 export interface Video {
   id: string;
