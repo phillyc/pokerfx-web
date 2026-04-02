@@ -33,6 +33,14 @@ BUCKET = os.getenv("S3_BUCKET", "pokerfx-uploads")
 TABLE = os.getenv("DYNAMODB_TABLE", "pokerfx")
 
 
+# ---- Root ----
+
+@app.get("/")
+def root():
+    """Root path — Railway health check requires this."""
+    return {"status": "ok", "message": "PokerFX API"}
+
+
 # ---- Health ----
 
 @app.get("/health")
