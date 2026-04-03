@@ -1,1 +1,70 @@
+/* ===== Google Fonts ===== */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&family=Inter:wght@400;500&display=swap');
+
 @import "tailwindcss";
+
+/* ===== Design Tokens ===== */
+@theme {
+  /* Color palette — The Kinetic Edge */
+  --color-primary: #efffe3;
+  --color-primary-container: #39ff14;
+  --color-primary-fixed: #79ff5b;
+  --color-primary-fixed-dim: #2ae500;
+  --color-secondary-container: #d20220;
+  --color-on-primary: #053900;
+  --color-on-primary-container: #107100;
+  --color-on-surface: #e3e2e5;
+  --color-on-surface-variant: #baccb0;
+  --color-outline-variant: #3c4b35;
+  --color-error: #ffb4ab;
+  --color-background: #121315;
+  --color-surface: #121315;
+  --color-surface-container-lowest: #0d0e10;
+  --color-surface-container-low: #1b1c1e;
+  --color-surface-container: #1f2022;
+  --color-surface-container-high: #292a2c;
+  --color-surface-container-highest: #343537;
+  --color-surface-variant: #343537;
+  --color-surface-tint: #2ae500;
+
+  /* Typography */
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-label: 'Inter', sans-serif;
+
+  /* Border radius */
+  --radius: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
+}
+
+/* ===== Base Styles ===== */
+@layer base {
+  html {
+    font-family: var(--font-body);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #121315;
+    color: #e3e2e5;
+    font-family: 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ===== Custom Utilities ===== */
+@layer utilities {
+  .glass-card {
+    background: rgba(52, 53, 55, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(60, 75, 53, 0.15);
+  }
+
+  .neon-glow {
+    text-shadow: 0 0 15px rgba(42, 229, 0, 0.4);
+  }
+}
