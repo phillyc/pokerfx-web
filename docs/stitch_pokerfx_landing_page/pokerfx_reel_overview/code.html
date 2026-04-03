@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PokerFX | Reel Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-container": "#39ff14",
+            "on-secondary-container": "#ffe1df",
+            "surface-dim": "#121315",
+            "on-tertiary-fixed": "#002022",
+            "secondary": "#ffb3ad",
+            "primary-fixed": "#79ff5b",
+            "on-primary-fixed-variant": "#095300",
+            "error-container": "#93000a",
+            "tertiary-fixed": "#7df4ff",
+            "outline": "#85967c",
+            "surface-container-low": "#1b1c1e",
+            "on-secondary-fixed": "#410004",
+            "error": "#ffb4ab",
+            "on-background": "#e3e2e5",
+            "surface-tint": "#2ae500",
+            "tertiary-fixed-dim": "#00dbe9",
+            "tertiary": "#ecfdff",
+            "surface": "#121315",
+            "inverse-surface": "#e3e2e5",
+            "on-surface": "#e3e2e5",
+            "on-primary-container": "#107100",
+            "primary-fixed-dim": "#2ae500",
+            "surface-container-lowest": "#0d0e10",
+            "on-primary-fixed": "#022100",
+            "primary": "#efffe3",
+            "on-surface-variant": "#baccb0",
+            "secondary-container": "#d20220",
+            "surface-container": "#1f2022",
+            "on-secondary": "#68000a",
+            "background": "#121315",
+            "on-tertiary-fixed-variant": "#004f54",
+            "on-tertiary": "#00363a",
+            "on-error": "#690005",
+            "inverse-on-surface": "#303033",
+            "secondary-fixed": "#ffdad7",
+            "on-error-container": "#ffdad6",
+            "outline-variant": "#3c4b35",
+            "on-primary": "#053900",
+            "on-tertiary-container": "#006c73",
+            "inverse-primary": "#106e00",
+            "surface-bright": "#38393b",
+            "tertiary-container": "#55f2ff",
+            "surface-container-highest": "#343537",
+            "secondary-fixed-dim": "#ffb3ad",
+            "on-secondary-fixed-variant": "#930012",
+            "surface-variant": "#343537",
+            "surface-container-high": "#292a2c"
+          },
+          fontFamily: {
+            "headline": ["Space Grotesk"],
+            "body": ["Manrope"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-card {
+      background: rgba(52, 53, 55, 0.6);
+      backdrop-filter: blur(20px);
+    }
+    .neon-glow {
+      text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body select-none scrollbar-hide">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col h-screen w-64 border-r-0 bg-[#1b1c1e] z-[60]">
+<div class="px-6 py-8">
+<h1 class="text-2xl font-bold tracking-tighter text-[#39ff14] font-['Space_Grotesk']">PokerFX</h1>
+<p class="text-[10px] uppercase tracking-widest text-gray-500 font-label mt-1">Precision Workflow</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="text-gray-400 hover:text-white flex items-center gap-3 px-6 py-4 hover:bg-[#343537] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label">Dashboard</span>
+</a>
+<a class="text-[#39ff14] font-bold border-l-4 border-[#39ff14] bg-[#292a2c]/50 flex items-center gap-3 px-6 py-4 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">folder_copy</span>
+<span class="font-label">Projects</span>
+</a>
+<a class="text-gray-400 hover:text-white flex items-center gap-3 px-6 py-4 hover:bg-[#343537] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">style</span>
+<span class="font-label">Templates</span>
+</a>
+<a class="text-gray-400 hover:text-white flex items-center gap-3 px-6 py-4 hover:bg-[#343537] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">video_library</span>
+<span class="font-label">Assets</span>
+</a>
+<a class="text-gray-400 hover:text-white flex items-center gap-3 px-6 py-4 hover:bg-[#343537] transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">archive</span>
+<span class="font-label">Archive</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-6 border-t border-outline-variant/10">
+<button class="w-full bg-primary-container text-on-primary py-3 rounded-lg font-headline font-bold text-sm tracking-tight active:scale-95 transition-transform">
+        New Project
+      </button>
+<div class="mt-4 flex flex-col gap-1">
+<a class="text-gray-400 hover:text-white flex items-center gap-3 px-4 py-2 text-sm" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="text-gray-400 hover:text-white flex items-center gap-3 px-4 py-2 text-sm" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 z-50 flex justify-between items-center px-8 h-16 bg-[#121315]/80 backdrop-blur-md shadow-[0_4px_32px_rgba(42,229,0,0.08)]">
+<div class="flex items-center gap-8">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">search</span>
+<input class="bg-surface-container-lowest border-none text-sm font-label pl-10 pr-4 py-1.5 w-64 rounded-md focus:ring-1 focus:ring-primary-container transition-all" placeholder="Search clips or assets..." type="text"/>
+</div>
+<nav class="flex items-center gap-6">
+<a class="text-gray-400 font-medium hover:text-[#39ff14] transition-all" href="#">Workflow</a>
+<a class="text-[#39ff14] border-b-2 border-[#39ff14] pb-1" href="#">Review</a>
+<a class="text-gray-400 font-medium hover:text-[#39ff14] transition-all" href="#">Export</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-4 py-1.5 bg-surface-container-high text-on-background rounded font-headline font-bold text-sm hover:bg-surface-container-highest transition-colors active:scale-95">
+        Batch Edit
+      </button>
+<button class="px-4 py-1.5 bg-primary-container text-on-primary rounded font-headline font-bold text-sm hover:shadow-[0_0_15px_rgba(57,255,20,0.4)] transition-all active:scale-95">
+        Render Reel
+      </button>
+<div class="flex items-center gap-3 ml-4 pl-4 border-l border-outline-variant/20">
+<span class="material-symbols-outlined text-gray-400 hover:text-primary-container cursor-pointer">notifications</span>
+<img alt="User Avatar" class="w-8 h-8 rounded-full border-2 border-outline-variant" data-alt="Close-up portrait of a professional-looking man with short hair and modern glasses against a dark minimalist studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBE66UyqRcaaWJUyFNuOGuq1lRpNa0FerS49Gi-51K70GGcwszlmX78Fs8oprS1lg0JbLaWo9wbB4amqTS1eiRSEPxjCvJ9K2qOyqpzW84dgBwebtKiw2cq9kJ2fhwj1DhLkSxjsZIVRkwc4d1YpMdfImum6T1E4ZQ_qjiBBGzI8YLO7ZGK6njv3L6z5bbkq7LV59QgGo0BEbZXysE2XRiiR36tRJNrB1goeeh8qUq0UevRs0RLyDO2blSGg3-4oSgywCPYE62lPtk"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<header class="mb-10 flex justify-between items-end">
+<div>
+<h2 class="font-headline text-4xl font-bold tracking-tighter text-on-background">Live Session <span class="text-primary-container">Reels</span></h2>
+<p class="font-label text-gray-500 mt-2">12 clips detected • Last synced 2m ago</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 bg-surface-container hover:bg-surface-container-highest rounded text-gray-400">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 bg-surface-container hover:bg-surface-container-highest rounded text-gray-400">
+<span class="material-symbols-outlined">list</span>
+</button>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group relative bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1">
+<div class="relative aspect-video w-full overflow-hidden">
+<img alt="Video Thumbnail" class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-500" data-alt="Wide shot of a professional poker table with cards spread out, dramatic overhead neon lighting, deep green felt and intense atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcTSY8hsgnECY_9m-DXa48EVhcyoghWGZU1pywfHdgW4Dckmm4XT-1A0HcaivoUeFq3rxsFs4w2MCQNoci4bDEuwGXRsBoOzoYL8aATnYG9A4kxdFncrrBJfhHw0HHzJW7EpujxiJiDnFaXQTAj22tHmDM1BsVxB1g9cXFU-utCRhJro569zz7r3J9uD0Bp3W7iMKOa8Fjz57bLhC9-Ew0M_jpg8V8vIwIf1qqFONXqpTV1oI_7LmZJtTJDkdc6OiJtjyTTyqY6RA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+<!-- Neon Overlay -->
+<div class="absolute inset-0 border-[0.5px] border-primary-container/20 pointer-events-none group-hover:border-primary-container/60 transition-colors"></div>
+<!-- AI Hole Cards Badge -->
+<div class="absolute top-4 left-4 flex gap-1">
+<div class="bg-surface-container-lowest/90 backdrop-blur px-2 py-1 rounded border border-primary-container/40 flex items-center gap-1.5">
+<span class="font-headline font-bold text-xs text-primary-container tracking-widest neon-glow">As Ks</span>
+</div>
+</div>
+<!-- Status Indicator -->
+<div class="absolute top-4 right-4 bg-primary-container/10 backdrop-blur px-2 py-1 rounded flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+<span class="font-label text-[10px] font-bold text-primary-container uppercase tracking-widest">AI Processed</span>
+</div>
+<!-- Duration Overlay -->
+<div class="absolute bottom-2 right-2 bg-black/60 px-1.5 py-0.5 rounded font-label text-[10px] text-white">04:15</div>
+</div>
+<div class="p-5">
+<h3 class="font-headline font-bold text-lg text-on-background truncate">WSOP_Day1_MainEvent.mp4</h3>
+<div class="mt-4 flex flex-wrap gap-4 text-gray-500 font-label text-[11px]">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>14:22:05</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Horseshoe Las Vegas</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span>Sony A7SIII</span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px]">auto_awesome</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px]">analytics</span>
+</div>
+</div>
+<button class="text-primary-container font-headline font-bold text-xs uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all">
+              Edit Clip
+              <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1">
+<div class="relative aspect-video w-full overflow-hidden">
+<img alt="Video Thumbnail" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-500" data-alt="Dynamic shot of a poker player reaching for a massive stack of chips, low angle with moody cinematic lighting and smoke" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2b9ogZCN-KulTd93LoBfxLcJVMUXuZ51ngM7vTgekqlOjQotRM0n60Qx84mkCu9cheGmdZgQULEeroxlMP83WsBD0yHlqPADvC5N3HSqzE4g1yls28LUJeyN2K38DhXhbNLisegajDiUV4riUTUitPqFnT0wkCClLgBD7brGL-ghxMBxhCyyNoR-CdUxbdDnhnO5ehW4xETxY3Oa_AYrIj-O09tnjPj8maIHkBTuW282xcRWdmA00PlwQDjppxTD2X0aLU_9R5nE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+<div class="absolute inset-0 bg-secondary-container/5 mix-blend-overlay"></div>
+<div class="absolute top-4 left-4 flex gap-1">
+<div class="bg-surface-container-lowest/90 backdrop-blur px-2 py-1 rounded border border-primary-container/40 flex items-center gap-1.5">
+<span class="font-headline font-bold text-xs text-primary-container tracking-widest neon-glow">8d 8h</span>
+</div>
+</div>
+<!-- Processing Status -->
+<div class="absolute top-4 right-4 bg-tertiary-fixed/10 backdrop-blur px-2 py-1 rounded flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-tertiary-fixed-dim rounded-full animate-pulse"></span>
+<span class="font-label text-[10px] font-bold text-tertiary-fixed-dim uppercase tracking-widest">Indexing</span>
+</div>
+</div>
+<div class="p-5">
+<h3 class="font-headline font-bold text-lg text-on-background truncate">Bellagio_Cash_Vlog_02.mov</h3>
+<div class="mt-4 flex flex-wrap gap-4 text-gray-500 font-label text-[11px]">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>23:45:12</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Bellagio Poker Room</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span>iPhone 15 Pro</span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/10 flex justify-between items-center opacity-50 grayscale cursor-not-allowed">
+<span class="text-[10px] font-label text-gray-400">Analysis 42% complete...</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1">
+<div class="relative aspect-video w-full overflow-hidden">
+<img alt="Video Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Atmospheric shot of a bright neon Las Vegas strip sign at night, blurred city lights in background, high contrast editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj68k3YbVupQeZyy5P1zUZ7UybhKvwFLWK2PPgzp7upNqCx45PCLi-NJHjo4oT527jZXAB-_ENv8Q5m0btZBQNFExtrTi8pwB82AE07_kKgkzZHtU2Z2Pvi2rthiUDOQ9YBDfwE8tOY3fI5SJ6ClpQgy69vmO79oqILseHwJWdK5MotO0LwPyLohnb3bbVS4i5i3aobuoyQU_gB38Q_87Bahz6Y9kQB76OsoeMsvcjc9g7MG78XWhVnqeLVo61rUpdDsdfTV9wulc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-4 left-4 flex gap-1">
+<div class="bg-surface-container-lowest/90 backdrop-blur px-2 py-1 rounded border border-primary-container/40 flex items-center gap-1.5">
+<span class="font-headline font-bold text-xs text-primary-container tracking-widest neon-glow">Jh 10h</span>
+</div>
+</div>
+<div class="absolute top-4 right-4 bg-primary-container/10 backdrop-blur px-2 py-1 rounded flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary-container rounded-full"></span>
+<span class="font-label text-[10px] font-bold text-primary-container uppercase tracking-widest">AI Processed</span>
+</div>
+</div>
+<div class="p-5">
+<h3 class="font-headline font-bold text-lg text-on-background truncate">Final_Table_Hero_Call.mp4</h3>
+<div class="mt-4 flex flex-wrap gap-4 text-gray-500 font-label text-[11px]">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>02:10:55</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Wynn Las Vegas</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span>Sony A7SIII</span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+<div class="flex gap-2">
+<span class="bg-secondary-container/20 text-secondary text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter">High Stakes</span>
+</div>
+<button class="text-primary-container font-headline font-bold text-xs uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all">
+              Edit Clip
+              <span class="material-symbols-outlined text-xs">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty/Upload State Anchor -->
+<div class="mt-12 border-2 border-dashed border-outline-variant/20 rounded-2xl h-48 flex flex-col items-center justify-center group cursor-pointer hover:border-primary-container/30 transition-all">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container/10 transition-colors">
+<span class="material-symbols-outlined text-gray-400 group-hover:text-primary-container">upload_file</span>
+</div>
+<p class="font-headline font-bold text-on-surface-variant">Drop more poker reels here</p>
+<p class="font-label text-xs text-gray-500 mt-1">Supports MP4, MOV, RAW (Max 4GB)</p>
+</div>
+</main>
+<!-- Contextual Floating Panel -->
+<div class="fixed bottom-8 right-8 z-[70]">
+<div class="bg-surface-container-highest/60 backdrop-blur-xl rounded-full p-2 flex items-center gap-2 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border border-outline-variant/20">
+<button class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+<div class="pr-6 pl-2 hidden md:block">
+<p class="text-[10px] font-headline font-bold uppercase tracking-widest text-primary-container">Quick Action</p>
+<p class="text-xs font-label text-on-surface">Auto-cut best hands</p>
+</div>
+</div>
+</div>
+</body></html>
