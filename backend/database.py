@@ -36,8 +36,7 @@ def get_video(video_id: str) -> Optional[dict]:
 
 
 def list_videos(limit: int = 50) -> list[dict]:
-    resp = table.scan(FilterExpression="begins_with(video_id, 'v') OR attribute_not_exists(#pk)", Limit=limit)
-    # Scan doesn't support filter on PK prefix easily; scan all and filter in Python
+    resp = table.scan(Limit=limit)
     items = resp.get("Items", [])
     while "LastEvaluatedKey" in resp:
         resp = table.scan(ExclusiveStartKey=resp["LastEvaluatedKey"], Limit=limit)
