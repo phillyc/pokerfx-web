@@ -18,6 +18,9 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
+            <Link to="/upload" className="text-on-surface hover:text-primary transition-colors text-sm font-medium">
+              Upload
+            </Link>
             <a href="#features" className="text-on-surface hover:text-primary transition-colors text-sm font-medium">
               Features
             </a>
@@ -27,21 +30,12 @@ export default function Header() {
             <a href="#pricing" className="text-on-surface hover:text-primary transition-colors text-sm font-medium">
               Pricing
             </a>
-            <a href="#showcase" className="text-on-surface hover:text-primary transition-colors text-sm font-medium">
-              Showcase
-            </a>
           </nav>
 
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <a
-              href="/api/auth/session"
-              className="text-on-surface hover:text-primary transition-colors text-sm font-medium"
-            >
-              Login
-            </a>
             <Link
-              to="/"
+              to="/upload"
               className="bg-primary-container text-on-primary px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:opacity-90 transition-all active:scale-[0.98]"
             >
               Get Started
@@ -69,6 +63,9 @@ export default function Header() {
         {/* Mobile Menu */}
         {mobileOpen && (
           <div className="md:hidden pb-4 space-y-3">
+            <Link to="/upload" className="block text-on-surface hover:text-primary transition-colors py-2 text-sm font-medium">
+              Upload
+            </Link>
             <a href="#features" className="block text-on-surface hover:text-primary transition-colors py-2 text-sm font-medium">
               Features
             </a>
@@ -78,15 +75,9 @@ export default function Header() {
             <a href="#pricing" className="block text-on-surface hover:text-primary transition-colors py-2 text-sm font-medium">
               Pricing
             </a>
-            <a href="#showcase" className="block text-on-surface hover:text-primary transition-colors py-2 text-sm font-medium">
-              Showcase
-            </a>
-            <div className="pt-2 space-y-2">
-              <a href="/api/auth/session" className="block text-on-surface hover:text-primary transition-colors text-sm font-medium">
-                Login
-              </a>
+            <div className="pt-2">
               <Link
-                to="/"
+                to="/upload"
                 className="inline-block bg-primary-container text-on-primary px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:opacity-90 transition-all active:scale-[0.98]"
               >
                 Get Started

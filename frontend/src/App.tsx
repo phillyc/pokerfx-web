@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 // Lazy-load pages for code-splitting
+const LandingPage = lazy(() => import('./pages/LandingPage'));
 const UploadPage = lazy(() => import('./pages/UploadPage'));
 const ReviewPage = lazy(() => import('./pages/ReviewPage'));
 const VideosPage = lazy(() => import('./pages/VideosPage'));
@@ -32,7 +33,8 @@ export default function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route element={<Layout />}>
-            <Route path="/" element={<UploadPage />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/upload" element={<UploadPage />} />
             <Route path="/videos" element={<VideosPage />} />
             <Route path="/review/:videoId" element={<ReviewPage />} />
           </Route>
