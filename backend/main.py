@@ -9,7 +9,8 @@ from typing import Annotated
 
 from fastapi import FastAPI, HTTPException, UploadFile, File, Path
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import Response, FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from backend import storage, database, batch
 from backend.schemas import (
@@ -22,13 +23,23 @@ from backend.schemas import (
 
 app = FastAPI(title="PokerFX API", version="1.0.0")
 
+ALLOWED_ORIGINS = os.getenv(
+    "ALLOWED_ORIGINS",
+    "https://pokerfx.net,https://www.pokerfx.net",
+).split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten for production
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+
+if os.path.isdir(FRONTEND_DIR):
+    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
 
 s3 = boto3.client("s3", region_name=os.getenv("AWS_REGION", "us-east-1"))
 BUCKET = os.getenv("S3_BUCKET", "pokerfx-uploads")
@@ -96,7 +107,10 @@ def _maybe_poll_batch(video: dict) -> dict:
 
 @app.get("/")
 def root():
-    """Root path — Railway health check requires this."""
+    """Root path — serves the frontend SPA."""
+    index_path = os.path.join(FRONTEND_DIR, "index.html")
+    if os.path.isfile(index_path):
+        return FileResponse(index_path)
     return {"status": "ok", "message": "PokerFX API"}
 
 
@@ -283,3 +297,16 @@ def export_video(video_id: str = Path(...)):
         media_type="application/zip",
         headers={"Content-Disposition": f'attachment; filename="{video_id}_verified.zip"'},
     )
+
+
+# ---- SPA fallback (must be last) ----
+
+@app.get("/{full_path:path}")
+def serve_spa(full_path: str):
+    """Catch-all for SPA client-side routing — returns index.html."""
+    # Don't serve asset files (already mounted at /assets)
+    if not full_path.startswith("assets/"):
+        index_path = os.path.join(FRONTEND_DIR, "index.html")
+        if os.path.isfile(index_path):
+            return FileResponse(index_path)
+    raise HTTPException(404, "Not found")
