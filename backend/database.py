@@ -25,6 +25,7 @@ def create_video(filename: str, s3_key: str) -> dict:
         "verified_count": 0,
         "created_at": now,
         "s3_key": s3_key,
+        "batch_job_id": None,
     }
     table.put_item(Item=item)
     return item
@@ -53,6 +54,15 @@ def update_video_status(video_id: str, status: str) -> None:
         UpdateExpression="SET #st = :s",
         ExpressionAttributeNames={"#st": "status"},
         ExpressionAttributeValues={":s": status},
+    )
+
+
+def update_video_batch_job_id(video_id: str, batch_job_id: str) -> None:
+    table.update_item(
+        Key={"video_id": video_id},
+        UpdateExpression="SET #bjid = :bjid",
+        ExpressionAttributeNames={"#bjid": "batch_job_id"},
+        ExpressionAttributeValues={":bjid": batch_job_id},
     )
 
 
@@ -158,4 +168,5 @@ def serialize_video(item: dict) -> dict:
         "detectedCount": item.get("detected_count", 0),
         "verifiedCount": item.get("verified_count", 0),
         "createdAt": item["created_at"],
+        "batchJobId": item.get("batch_job_id"),
     }

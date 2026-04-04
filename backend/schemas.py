@@ -40,6 +40,7 @@ class VideoResponse(BaseModel):
     detectedCount: int = 0
     verifiedCount: int = 0
     createdAt: str
+    batchJobId: Optional[str] = None
 
     class Config:
         from_attributes = True
