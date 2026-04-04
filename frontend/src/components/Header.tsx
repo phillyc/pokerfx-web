@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -8,12 +9,12 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a
-            href="/"
+          <Link
+            to="/"
             className="text-primary-fixed-dim font-black text-2xl font-headline tracking-tighter neon-glow"
           >
             PokerFX
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
@@ -39,12 +40,12 @@ export default function Header() {
             >
               Login
             </a>
-            <a
-              href="/"
+            <Link
+              to="/"
               className="bg-primary-container text-on-primary px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:opacity-90 transition-all active:scale-[0.98]"
             >
               Get Started
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Hamburger */}
@@ -84,12 +85,12 @@ export default function Header() {
               <a href="/api/auth/session" className="block text-on-surface hover:text-primary transition-colors text-sm font-medium">
                 Login
               </a>
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="inline-block bg-primary-container text-on-primary px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:opacity-90 transition-all active:scale-[0.98]"
               >
                 Get Started
-              </a>
+              </Link>
             </div>
           </div>
         )}
