@@ -1,17 +1,18 @@
 import { useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { uploadVideo, processVideo } from '../api/client';
+import { uploadVideo } from '../api/client';
 
 export default function UploadPage() {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleFile(file: File) {
     if (!file.type.startsWith('video/')) {
-      setError('Please upload a video file.');
+      setError('Please upload a video file (MP4, MOV, WebM).');
       return;
     }
     if (file.size > 1024 * 1024 * 1024) {
@@ -21,14 +22,16 @@ export default function UploadPage() {
 
     setError(null);
     setUploading(true);
+    setProgress(0);
 
     try {
-      const { videoId } = await uploadVideo(file);
-      await processVideo(videoId);
+      const { videoId } = await uploadVideo(file, (percent) => setProgress(percent));
+      // Redirect immediately after successful upload — processing happens server-side
       navigate(`/review/${videoId}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Upload failed');
       setUploading(false);
+      setProgress(0);
     }
   }
 
@@ -83,7 +86,15 @@ export default function UploadPage() {
               <div className="flex justify-center mb-4">
                 <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
               </div>
-              <p className="text-gray-300">Uploading…</p>
+              <p className="text-gray-300 mb-3">
+                Uploading… {progress > 0 && `${progress}%`}
+              </p>
+              <div className="w-full bg-gray-800 rounded-full h-2.5 overflow-hidden">
+                <div
+                  className="bg-purple-500 h-2.5 rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </>
           ) : (
             <>

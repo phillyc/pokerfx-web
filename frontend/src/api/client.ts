@@ -42,16 +42,57 @@ export async function listVideos(): Promise<Video[]> {
   return res.json();
 }
 
-export async function uploadVideo(file: File): Promise<{ videoId: string }> {
+export async function uploadVideo(
+  file: File,
+  onProgress?: (percent: number) => void
+): Promise<{ videoId: string }> {
   if (USE_MOCK) return mockUploadVideo(file);
-  const formData = new FormData();
-  formData.append('file', file);
-  const res = await fetch(`${API_BASE}/videos/upload`, {
-    method: 'POST',
-    body: formData,
+
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `${API_BASE}/videos/upload`, true);
+
+    xhr.upload.addEventListener('progress', (event) => {
+      if (event.lengthComputable && onProgress) {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        onProgress(percent);
+      }
+    });
+
+    xhr.addEventListener('load', () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          resolve(JSON.parse(xhr.responseText));
+        } catch {
+          reject(new Error('Invalid response from server'));
+        }
+      } else {
+        let message = 'Upload failed';
+        if (xhr.status === 400) {
+          try {
+            const body = JSON.parse(xhr.responseText);
+            message = body.detail || body.message || 'Invalid file';
+          } catch {
+            message = 'Invalid file. Please upload a video file under 1GB.';
+          }
+        } else if (xhr.status === 413) {
+          message = 'File is too large. Maximum size is 1GB.';
+        } else if (xhr.status >= 500) {
+          message = 'Something went wrong. Please try again.';
+        }
+        reject(new Error(message));
+      }
+    });
+
+    xhr.addEventListener('error', () => {
+      reject(new Error('Network error. Please check your connection.'));
+    });
+
+    xhr.send(formData);
   });
-  if (!res.ok) throw new Error('Upload failed');
-  return res.json();
 }
 
 export async function getVideo(id: string): Promise<Video> {
