@@ -1,18 +1,17 @@
 import HeroSection from '../components/HeroSection';
 import ComparisonSection from '../components/ComparisonSection';
 import FeatureGrid from '../components/FeatureGrid';
+import WorkflowSection from '../components/WorkflowSection';
+import CTASection from '../components/CTASection';
 
 export default function LandingPage() {
   return (
     <>
-      {/* Hero */}
       <HeroSection />
-
-      {/* Comparison */}
       <ComparisonSection />
-
-      {/* Feature Grid */}
       <FeatureGrid />
+      <WorkflowSection />
+      <CTASection />
     </>
   );
 }
