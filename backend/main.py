@@ -1,7 +1,9 @@
 import os
+import time
 import zipfile
 import io
 import boto3
+import threading
 from datetime import datetime, timezone
 from typing import Annotated
 
@@ -32,6 +34,63 @@ s3 = boto3.client("s3", region_name=os.getenv("AWS_REGION", "us-east-1"))
 BUCKET = os.getenv("S3_BUCKET", "pokerfx-uploads")
 TABLE = os.getenv("DYNAMODB_TABLE", "pokerfx")
 
+# In-memory cache for Batch polling to avoid rate-limiting the AWS API.
+# Key: video_id, Value: {"batch_status": ..., "video_status": ..., "timestamp": ...,
+#                          "reason": ...}
+_batch_poll_cache: dict = {}
+_batch_poll_lock = threading.Lock()
+BATCH_POLL_CACHE_TTL = 10  # seconds — don't poll the same video more often than this
+
+
+def _maybe_poll_batch(video: dict) -> dict:
+    """If the video is processing, check AWS Batch for the real job status.
+
+    Returns an updated video dict (only the status field may change).
+    Results are cached for BATCH_POLL_CACHE_TTL seconds.
+    """
+    video_id = video["video_id"]
+    if video["status"] != "processing":
+        return video
+
+    # If we have no batch_job_id yet, there's nothing to poll
+    batch_job_id = video.get("batch_job_id")
+    if not batch_job_id:
+        return video
+
+    # Check cache
+    with _batch_poll_lock:
+        cached = _batch_poll_cache.get(video_id)
+        if cached and (time.time() - cached["timestamp"]) < BATCH_POLL_CACHE_TTL:
+            if cached["video_status"] != video["status"]:
+                video = {**video, "status": cached["video_status"]}
+                database.update_video_status(video_id, cached["video_status"])
+            return video
+
+    # Poll AWS Batch
+    result = batch.get_job_status(batch_job_id)
+
+    # Don't update on transient API errors (status_code 500)
+    if result["status_code"] == 500:
+        return video
+
+    # If the DB status changed, update it
+    if result["video_status"] != video["status"]:
+        with _batch_poll_lock:
+            _batch_poll_cache[video_id] = {
+                "batch_status": result["batch_status"],
+                "video_status": result["video_status"],
+                "timestamp": time.time(),
+                "reason": result.get("reason"),
+            }
+        # Update DynamoDB so future reads without the cache get the right status
+        database.update_video_status(video_id, result["video_status"])
+        if result.get("reason") and result["batch_status"] == "FAILED":
+            # Log failure reason (could be expanded to store in DB later)
+            print(f"Batch job {batch_job_id} failed: {result['reason']}")
+        video = {**video, "status": result["video_status"]}
+
+    return video
+
 
 # ---- Root ----
 
@@ -54,7 +113,7 @@ def health():
 def list_videos():
     """List all uploaded videos, newest first."""
     videos = database.list_videos()
-    return [database.serialize_video(v) for v in videos]
+    return [database.serialize_video(_maybe_poll_batch(v)) for v in videos]
 
 
 @app.post("/api/videos/upload", response_model=UploadResponse)
@@ -87,6 +146,9 @@ def get_video(video_id: str = Path(...)):
     video = database.get_video(video_id)
     if not video:
         raise HTTPException(404, "Video not found")
+    
+    # Poll AWS Batch if the job is still processing
+    video = _maybe_poll_batch(video)
     return database.serialize_video(video)
 
 
@@ -138,6 +200,8 @@ def process_video(video_id: str = Path(...)):
 
     try:
         job_id = batch.submit_detection_job(video_id, video["s3_key"], TABLE)
+        # Store the job ID so GET can poll it later
+        database.update_video_batch_job_id(video_id, job_id)
     except Exception as e:
         database.update_video_status(video_id, "error")
         raise HTTPException(500, f"Failed to submit Batch job: {e}")
