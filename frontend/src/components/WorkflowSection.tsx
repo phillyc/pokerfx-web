@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import heroImg from '../assets/hero.png';
 
 const workflowSteps = [
@@ -115,7 +114,7 @@ export default function WorkflowSection() {
               {/* Connecting line */}
               <div className="hidden lg:block absolute left-5 top-10 bottom-10 w-px bg-outline-variant/20" />
 
-              {workflowSteps.map((step, idx) => (
+              {workflowSteps.map((step) => (
                 <div key={step.num} className="flex gap-4 items-start relative">
                   <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0 border border-outline-variant/20 relative z-10">
                     <span className="text-primary-container font-headline font-bold">{step.num}</span>

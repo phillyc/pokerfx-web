@@ -15,8 +15,14 @@ from pathlib import Path
 # Add parent dir for imports
 sys.path.insert(0, str(Path(__file__).parent))
 
-from storage import get_presigned_thumbnail_url, thumbnail_key as make_thumb_key, BUCKET
 import card_detect_worker as card_detect
+
+# ── S3 helpers (self-contained — no backend/storage.py dependency) ──────────
+S3_BUCKET = os.getenv("S3_BUCKET", "pokerfx-uploads")
+
+
+def thumbnail_key(video_id: str, hand_id: str) -> str:
+    return f"thumbnails/{video_id}/{hand_id}.jpg"
 
 
 def log(msg: str):
@@ -25,14 +31,14 @@ def log(msg: str):
 
 def download_video(s3_key: str, dest: Path) -> Path:
     s3 = boto3.client("s3")
-    s3.download_file(BUCKET, s3_key, str(dest))
+    s3.download_file(S3_BUCKET, s3_key, str(dest))
     return dest
 
 
 def upload_thumbnail(frame_jpg: Path, video_id: str, hand_id: str) -> str:
     s3 = boto3.client("s3")
-    key = make_thumb_key(video_id, hand_id)
-    s3.upload_file(str(frame_jpg), BUCKET, key, ExtraArgs={"ContentType": "image/jpeg"})
+    key = thumbnail_key(video_id, hand_id)
+    s3.upload_file(str(frame_jpg), S3_BUCKET, key, ExtraArgs={"ContentType": "image/jpeg"})
     return key
 
 

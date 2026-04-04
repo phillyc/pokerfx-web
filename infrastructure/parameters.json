@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "production"
+  },
+  {
+    "ParameterKey": "SubnetIds",
+    "ParameterValue": "subnet-CHANGE_ME_1,subnet-CHANGE_ME_2"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-CHANGE_ME"
+  },
+  {
+    "ParameterKey": "S3BucketName",
+    "ParameterValue": "pokerfx-uploads"
+  },
+  {
+    "ParameterKey": "DynamoDBTableName",
+    "ParameterValue": "pokerfx"
+  }
+]
