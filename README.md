@@ -5,19 +5,21 @@
 ```
 Phil's Browser
     │
-    │ HTTPS
+    │ HTTPS (pokerfx.net)
     ▼
-Next.js (Vercel or Railway)
-    │  ← frontend pokerfx-web
-    │
-    │ /api/* proxy or direct
-    ▼
-FastAPI (Railway/Render)
+FastAPI + SPA (Railway, custom domain: pokerfx.net)
     │
     ├─► S3 (video + thumbnails)
     ├─► DynamoDB (videos + hands)
     └─► AWS Batch (card detection jobs)
 ```
+
+## Custom Domain
+
+- **Production URL:** `https://pokerfx.net`
+- **Alternative:** `https://www.pokerfx.net` (should redirect or serve the same app)
+- **DNS:** Managed via Namecheap
+- **SSL:** Auto-provisioned by Railway for custom domains
 
 ## AWS Resources Needed
 
@@ -68,16 +70,17 @@ aws ecr create-repository --repository-name pokerfx/card-detect-worker
 docker push <account>.dkr.ecr.<region>.amazonaws.com/pokerfx/card-detect-worker:latest
 ```
 
-### FastAPI Deployment
-Railway or Render recommended for simplicity:
+### FastAPI Deployment (Railway)
 - Build command: `pip install -r backend/requirements.txt`
 - Start command: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
-- Env vars: `AWS_*`, `S3_BUCKET`, `DYNAMODB_TABLE`, `BATCH_JOB_*`
+- Env vars: `AWS_*`, `S3_BUCKET`, `DYNAMODB_TABLE`, `BATCH_JOB_*`, `ALLOWED_ORIGINS`
+- Custom domain: `pokerfx.net` + `www.pokerfx.net` (configured in Railway dashboard)
 
 ### Environment Variables
 
 | Variable | Description | Example |
 |----------|-------------|---------|
+| `ALLOWED_ORIGINS` | CORS whitelist (comma-separated) | `https://pokerfx.net,https://www.pokerfx.net` |
 | `AWS_REGION` | AWS region | `us-east-1` |
 | `AWS_ACCESS_KEY_ID` | AWS key (or use instance role) | — |
 | `AWS_SECRET_ACCESS_KEY` | AWS secret | — |
