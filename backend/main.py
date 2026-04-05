@@ -9,7 +9,7 @@ from typing import Annotated
 
 from fastapi import FastAPI, HTTPException, UploadFile, File, Path
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import Response, FileResponse
 
 from backend import storage, database, batch
 from backend.schemas import (
@@ -95,14 +95,6 @@ def _maybe_poll_batch(video: dict) -> dict:
         video = {**video, "status": result["video_status"]}
 
     return video
-
-
-# ---- Root ----
-
-@app.get("/")
-def root():
-    """Root path — Railway health check requires this."""
-    return {"status": "ok", "message": "PokerFX API"}
 
 
 # ---- Health ----
@@ -288,3 +280,25 @@ def export_video(video_id: str = Path(...)):
         media_type="application/zip",
         headers={"Content-Disposition": f'attachment; filename="{video_id}_verified.zip"'},
     )
+
+
+# ---- Frontend SPA (mounts last, after all /api routes) ----
+
+FRONTEND_DIST = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend", "dist")
+
+if os.path.isdir(FRONTEND_DIST):
+    # Serve index.html for root path
+    @app.get("/")
+    def frontend_root():
+        return FileResponse(os.path.join(FRONTEND_DIST, "index.html"))
+
+    # Serve static assets (JS, CSS, images) and SPA fallback for client-side routing
+    @app.get("/{full_path:path}")
+    def serve_frontend(full_path: str):
+        from pathlib import Path
+
+        file_path = Path(FRONTEND_DIST) / full_path
+        if file_path.is_file():
+            return FileResponse(str(file_path))
+        # SPA fallback — any non-file path serves index.html
+        return FileResponse(str(Path(FRONTEND_DIST) / "index.html"))
