@@ -1,0 +1,200 @@
+{
+  "key_influencers": [
+    {
+      "name": "NoFacePoker (Phil)",
+      "platform": "YouTube + Twitch",
+      "handle": "@nofacespoker",
+      "audience": "Live poker vloggers, tournament players",
+      "influence_level": "High within niche",
+      "partnership_potential": "Beta tester, case study, testimonial",
+      "contact": "YouTube DM, Discord (@_rabbite)"
+    },
+    {
+      "name": "Jonathan Little",
+      "platform": "YouTube + Podcast",
+      "handle": "@jonathanlittlepoker",
+      "audience": "200K+ poker students",
+      "influence_level": "Very High",
+      "partnership_potential": "Educational partnership, course integration",
+      "contact": "jonathanlittlepoker.com/contact"
+    },
+    {
+      "name": "Ruthie B",
+      "platform": "YouTube",
+      "handle": "@ruthiepoker",
+      "audience": "Female poker players, lifestyle vloggers",
+      "influence_level": "Medium-High",
+      "partnership_potential": "Diversity outreach, beginner vlogger focus",
+      "contact": "YouTube DM"
+    },
+    {
+      "name": "PokerCoaching (Elias & Team)",
+      "platform": "YouTube",
+      "handle": "@pokercoaching",
+      "audience": "100K+ aspiring poker pros",
+      "influence_level": "High",
+      "partnership_potential": "Content creation course partnership",
+      "contact": "pokercoaching.com"
+    },
+    {
+      "name": "The Poker Life",
+      "platform": "YouTube + Podcast",
+      "handle": "@thepokerlife",
+      "audience": "Live tournament vlog followers",
+      "influence_level": "Medium",
+      "partnership_potential": "Cross-promotion, tool reviews",
+      "contact": "YouTube DM"
+    }
+  ],
+  "video_editor_influencers": [
+    {
+      "name": "Casey Faris",
+      "platform": "YouTube",
+      "handle": "@caseyfaris",
+      "audience": "DaVinci Resolve users (400K+)",
+      "relevance": "High - Many poker vloggers use DaVinci",
+      "partnership_potential": "Tutorial integration, feature showcase"
+    },
+    {
+      "name": "MrAlexTech",
+      "platform": "YouTube",
+      "audience": "Video editing tutorials",
+      "relevance": "Medium - General editing audience"
+    }
+  ],
+  "equipment_reviewers": [
+    {
+      "name": "Technical Poker",
+      "platform": "YouTube",
+      "focus": "Poker tech reviews (tablets, cameras, lighting)",
+      "audience": "Poker setup enthusiasts",
+      "partnership_potential": "Bundle reviews, setup guides"
+    },
+    {
+      "name": "Poker Table Pros",
+      "platform": "YouTube + Website",
+      "focus": "Pole poker tables and equipment",
+      "partnership_potential": "Cross-promotion with camera/lighting packages"
+    }
+  ],
+  "partnership_opportunities": [
+    {
+      "category": "Education Platforms",
+      "targets": [
+        {
+          "name": "Upswing Poker",
+          "url": "https://upswingpoker.com/",
+          "partnership_type": "Tool discount for students, integrated in content creation modules",
+          "estimated_cost": "$5K-20K partnership"
+        },
+        {
+          "name": "PokerCoaching",
+          "url": "https://pokercoaching.com/",
+          "partnership_type": "Course integration, affiliate program",
+          "estimated_cost": "$10K-50K"
+        },
+        {
+          "name": "Run It Once",
+          "url": "https://runitononce.com/",
+          "partnership_type": "Premium education platform integration",
+          "estimated_cost": "$20K-100K"
+        }
+      ]
+    },
+    {
+      "category": "Camera/Equipment Brands",
+      "targets": [
+        {
+          "name": "Insta360",
+          "url": "https://www.insta360.com/",
+          "partnership_type": "Bundle deals, poker-specific camera packages",
+          "note": "User already owns Insta360 X3 - potential case study"
+        },
+        {
+          "name": "Elgato",
+          "url": "https://www.elgato.com/",
+          "partnership_type": "Streaming setup bundles for poker vloggers"
+        },
+        {
+          "name": "Rode Microphones",
+          "partnership_type": "Audio packages for poker content creators"
+        }
+      ]
+    },
+    {
+      "category": "Affiliate Networks",
+      "targets": [
+        {
+          "name": "PokerAffiliate.com",
+          "url": "https://pokeraffiliates.com/",
+          "partnership_type": "Cross-promotion with poker software companies"
+        },
+        {
+          "name": "Partnership with Hand2Note, GTO Wizard",
+          "partnership_type": "Bundle with existing poker tools"
+        }
+      ]
+    },
+    {
+      "category": "Community Building",
+      "strategies": [
+        "Create 'PokerFX Creator Academy' - free course on poker vlogging",
+        "Sponsor poker content creation Discord server",
+        "Host monthly 'Vlog Improvement' live streams with beta testers",
+        "Build affiliate program for established poker vloggers (15-20% recurring)"
+      ]
+    }
+  ],
+  "community_hubs_detailed": {
+    "reddit": [
+      {
+        "subreddit": "r/poker",
+        "url": "https://www.reddit.com/r/poker/",
+        "engagement_tips": "Share in weekly gear threads, avoid direct promotion"
+      },
+      {
+        "subreddit": "r/PokerTheory",
+        "url": "https://www.reddit.com/r/PokerTheory/",
+        "engagement_tips": "Valuable for strategy-focused vloggers"
+      },
+      {
+        "subreddit": "r/VideoEditing",
+        "url": "https://www.reddit.com/r/VideoEditing/",
+        "engagement_tips": "Share before/after editing examples"
+      },
+      {
+        "subreddit": "r/pokerhandvideos",
+        "url": "https://www.reddit.com/r/pokerhandvideos/",
+        "engagement_tips": "Direct target audience, very engaged"
+      }
+    ],
+    "discord": [
+      {
+        "server": "PokerDiscord",
+        "url": "https://discord.gg/poker",
+        "member_count": "~300K",
+        "approach": "Partner with #showcase channel mods"
+      },
+      {
+        "server": "Live Poker Vloggers",
+        "approach": "Word-of-mouth invitation only - build beta program"
+      },
+      {
+        "server": "PokerCoaching Network",
+        "approach": "Sponsor content creation channel"
+      }
+    ],
+    "facebook_groups": [
+      {
+        "name": "Live Poker Tournament Players",
+        "members": "~50K",
+        "approach": "Share educational content, not hard sales"
+      },
+      {
+        "name": "Poker Content Creators",
+        "members": "~10K (estimated)",
+        "approach": "Highly targeted, private group"
+      }
+    ]
+  }
+}

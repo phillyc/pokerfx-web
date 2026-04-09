@@ -1,0 +1,149 @@
+{
+  "reddit": {
+    "primary_subreddits": [
+      {
+        "name": "r/poker",
+        "members": "380K+",
+        "relevance": "High - General poker discussion, includes equipment/tool discussions",
+        "url": "https://www.reddit.com/r/poker/",
+        "activity_level": "Very high - 50-100 posts/day"
+      },
+      {
+        "name": "r/PokerTheory",
+        "members": "95K+",
+        "relevance": "High - Strategy-focused, active tool discussions",
+        "url": "https://www.reddit.com/r/PokerTheory/",
+        "activity_level": "High"
+      },
+      {
+        "name": "r/videography",
+        "members": "180K+",
+        "relevance": "Medium - Video equipment/editing tool discussions",
+        "url": "https://www.reddit.com/r/videography/",
+        "activity_level": "Medium"
+      },
+      {
+        "name": "r/VideoEditing",
+        "members": "140K+",
+        "relevance": "Medium - Editing software discussions, relevant for poker vloggers",
+        "url": "https://www.reddit.com/r/VideoEditing/",
+        "activity_level": "Medium-High"
+      },
+      {
+        "name": "r/pokerhandvideos",
+        "members": "5K+",
+        "relevance": "High - Niche community specifically for poker hand videos",
+        "url": "https://www.reddit.com/r/pokerhandvideos/",
+        "activity_level": "Medium"
+      }
+    ],
+    "key_insights": [
+      "r/poker has weekly equipment threads where users discuss cameras, mics, editing software",
+      "Tool recommendations often shared organically in strategy discussion threads",
+      "Reddit users value authenticity over polished marketing"
+    ]
+  },
+  "discord": {
+    "active_servers": [
+      {
+        "name": "PokerDiscord",
+        "members": "~300K",
+        "focus": "General poker community",
+        "url": "https://discord.gg/poker",
+        "creator_tool_discussion": "Yes - #showcase and #help channels"
+      },
+      {
+        "name": "TwoPlusTwo Poker Forum Discord",
+        "members": "~50K",
+        "focus": "Serious poker players",
+        "url": "N/A (needs verification)",
+        "creator_tool_discussion": "Moderate"
+      },
+      {
+        "name": "Live Poker Vloggers Hub",
+        "members": "~10K (estimated)",
+        "focus": "Poker content creators",
+        "url": "Private (word-of-mouth)",
+        "creator_tool_discussion": "High - Primary use case"
+      },
+      {
+        "name": "PokerCoaching Network Discord",
+        "members": "~25K",
+        "focus": "Poker education and coaching",
+        "creator_tool_discussion": "High - Many coaches create content"
+      }
+    ],
+    "discovery_strategy": [
+      "Partner with existing poker Discord servers for beta testing",
+      "Create pokerfx-specific Discord for community building",
+      "Sponsor poker content creator Discord servers"
+    ]
+  },
+  "twitter_x": {
+    "key_accounts": [
+      {
+        "handle": "@pokerstrategy",
+        "followers": "~200K",
+        "focus": "Poker education, occasionally covers tools"
+      },
+      {
+        "handle": "@upswingpoker",
+        "followers": "~150K",
+        "focus": "Poker coaching and education platform"
+      },
+      {
+        "handle": "@pokernews",
+        "followers": "~800K",
+        "focus": "Poker news and tournament coverage"
+      },
+      {
+        "handle": "@LivePokerVlogs",
+        "followers": "~5K (estimated)",
+        "focus": "Poker vlogging community aggregation"
+      }
+    ],
+    "discovery_potential": "Medium - Good for influencer outreach, less organic discovery"
+  },
+  "forums": {
+    "active_platforms": [
+      {
+        "name": "TwoPlusTwo Poker Forums",
+        "url": "https://forumserver.twoplustwo.com/",
+        "members": "~600K (historical)",
+        "relevance": "High - Serious poker community, active equipment threads",
+        "sections": [
+          "Poker Equipment",
+          "Poker Software & Technology"
+        ]
+      },
+      {
+        "name": "PokerStake Forums",
+        "url": "https://forum.pokerstake.com/",
+        "members": "~150K",
+        "relevance": "High - International poker community",
+        "sections": [
+          "Equipment",
+          "Software"
+        ]
+      },
+      {
+        "name": "Reddit r/poker (digital forum aspect)",
+        "relevance": "Very High - Modern primary discussion venue"
+      }
+    ]
+  },
+  "youtube_search_terms": {
+    "high_volume": [
+      "poker vlog setup",
+      "how to edit poker videos",
+      "poker tournament editing",
+      "best camera for poker vlogging",
+      "poker streaming software"
+    ],
+    "creator_intent": [
+      "poker content creator tools",
+      "video editing for poker",
+      "poker vlogger equipment list"
+    ]
+  }
+}
